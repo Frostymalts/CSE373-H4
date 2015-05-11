@@ -8,29 +8,20 @@ import providedCode.*;
  * @studentID 1336144
  * @email maltersj@uw.edu
  * 
- *        TODO: REPLACE this comment with your own as appropriate.
+ * Comparator class that compares two String objects, and
+ * returns an integer indicating which String comes before the other
+ * alphabetically. 
  * 
- *        1. This comparator is used by the provided code for both data-counters
- *        and sorting. Because of how the output must be sorted in the case of
- *        ties, your implementation should return a negative number when the
- *        first argument to compare comes first alphabetically.
- * 
- *        2. Do NOT use any String comparison provided in Java's standard
- *        library; the only String methods you should use are length and charAt.
- * 
- *        3. You can use ASCII character codes to easily compare characters
- *        http://www.asciitable.com/
- * 
- *        4. When you are unsure about the ordering, you can try
- *        str1.compareTo(str2) to see what happens. Your
- *        stringComparator.compare(str1, str2) should behave the same way as
- *        str1.compareTo(str2). They don't have to return the same value, but
- *        their return values should have the same sign (+,- or 0).
  */
 public class StringComparator implements Comparator<String> {
 
-	/**
-	 * TODO Replace this comment with your own as appropriate.
+	/*
+	 * Compares two string objects and returns a value based of their characters
+	 * @param s1 First String that will be used in the comparison
+	 * @param s2 Second String that will be used in the comparison
+	 * @return returns an integer value less than zero if the first string comes alphabetically before
+	 * the second string, zero if the strings are alphabetically equal, greater than
+	 * zero if the first string comes alphabetically after the second string.
 	 */
 	@Override
 	public int compare(String s1, String s2) {
@@ -42,9 +33,8 @@ public class StringComparator implements Comparator<String> {
 			dif += s1.charAt(i) - s2.charAt(i);
 			i++;
 			length--;
-			if (dif != 0) {
+			if (dif != 0)
 				return dif;
-			}
 		}
 		
 		return s1.length() - s2.length();
