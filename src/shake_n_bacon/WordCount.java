@@ -19,7 +19,7 @@ public class WordCount {
 		int i = 0;
 		
 		while(itr.hasNext()) {
-			if (array.length >= i)
+			if (i >= array.length)
 				array = expandArray(array);
 			array[i] = itr.next();
 			i++;
