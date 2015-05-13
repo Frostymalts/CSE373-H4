@@ -19,30 +19,27 @@ public class HasherTest {
 		DataCounter sc = new HashTable_SC(c, h);
 		DataCounter oa = new HashTable_OA(c, h);
 
-		System.out.println("Separate Chaining tests:");
-		testSize(sc);
-		//sc = new HashTable_SC(c, h);
-		testSize(sc);
-		//sc = new HashTable_SC(c, h);
-		testInc(sc);
+// 		System.out.println("Separate Chaining tests:");
+// 		testSize(sc);
+// 		testSize(sc);
+//       testCount(sc);
+//       testIterator(sc);
 
 		System.out.println("Open Addressing tests:");
-//		testSize(oa);
-//		//oa = new HashTable_OA(c, h);
-//		testSize(oa);
-//		//oa = new HashTable_OA(c, h);
-//		testInc(oa);
-		//testProbing(oa);
+		testSize(oa);
+		testSize(oa);
+      testCount(oa);
+		testIterator(oa);
 	}
 
 	public static void testSize(DataCounter table) {
-		System.out.println("Inserting 50 elements.");
-		for (int i = 0; i < 50; i++) {
+		System.out.println("Inserting 20000 elements.");
+		for (int i = 0; i < 20000; i++) {
 			table.incCount("" + i);
 		}
 		
 		System.out.println("Reported size = " + table.getSize());
-		if (table.getSize() == 50) {
+		if (table.getSize() == 20000) {
 			System.out.println("Size test passed.");
 		} else {
 			System.out.println("Incorrect size.");
@@ -50,7 +47,7 @@ public class HasherTest {
 	}
 
 	public static void testCount(DataCounter table) {
-		if (table.getCount("0") == 1) {
+		if (table.getCount("0") == 2) {
 			System.out.println("Single increment count test passed.");
 		} else {
 			System.out.println("Incorrect count.");
@@ -62,8 +59,9 @@ public class HasherTest {
 
 		boolean flag = true;
 		for (int i = 0; i < 50; i++) {
-			if (table.getCount("" + i) != 2) {
-				flag = !flag;
+			if (table.getCount("" + i) != 3) {
+				flag = false;
+            System.out.println(table.getCount("" + i));
 			}
 		}
 		
@@ -73,16 +71,14 @@ public class HasherTest {
 			System.out.println("Incorrect count.");
 		}     
 	}
-
-	public static void testInc(DataCounter table) {
-		
-	}
-
-//	public static void testProbing(DataCounter table) {
-//		if() {
-//			System.out.println("Quadratic probing insertion successful.");
-//		} else {
-//			System.out.println("Quadratic probing insertion failed.");
-//		}
-//	}
+   
+   public static void testIterator(DataCounter table) {
+      SimpleIterator itr = table.getIterator();
+      int i = 0;
+      while (itr.hasNext()) {
+         itr.next();
+         i++;
+      }
+      System.out.println("Iterated through " + i + " elements.");
+   } 
 }

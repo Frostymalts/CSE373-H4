@@ -118,18 +118,23 @@ public class HashTable_OA extends DataCounter {
 		primeIndex++;
 		DataCount[] biggerTable = new DataCount[primes[primeIndex]];
 		
-		for (DataCount dataCount : table) {
-			int index = findPos(dataCount.data, biggerTable);
-			biggerTable[index] = dataCount;
-		}
+      for (int i = 0; i < table.length; i++) {
+         if (table[i] != null) {
+            DataCount dataCount = table[i];
+            int index = findPos(dataCount.data, biggerTable);
+			   biggerTable[index] = dataCount;
+         }
+      }
+      table = biggerTable;
 	}
 	
 	private int findPos(String data, DataCount[] array) {
 		int i = 0;
 		int index = h.hash(data) % array.length;
 		int tempIndex = -1;
+      boolean found = false;
 		
-		while(tempIndex != index) {
+		while(true) {
 			tempIndex = (int) (index + Math.pow(i, 2));
 			if( tempIndex >= array.length )
                 tempIndex -= array.length;
@@ -141,7 +146,5 @@ public class HashTable_OA extends DataCounter {
 			}
 			i++;
 		}
-		return index;
 	}
-
 }
