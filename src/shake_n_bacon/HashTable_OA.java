@@ -42,8 +42,8 @@ public class HashTable_OA extends DataCounter {
 	private Comparator<String> c;
 	private Hasher h;
 	private int size;
-	
-	
+
+
 	public HashTable_OA(Comparator<String> c, Hasher h) {
 		this.table = new DataCount[primes[primeIndex]];
 		this.c = c;
@@ -53,18 +53,18 @@ public class HashTable_OA extends DataCounter {
 	@Override
 	public void incCount(String data) {
 		int index = findPos(data, table);
-		
+
 		if (table[index] == null) {
 			table[index] = new DataCount(data, 1);
 			size++;
 		} else {
 			table[index].count++;
 		}
-		
+
 		if ((double) size > (double) table.length / 2.0)
 			rehash();
 	}
-	
+
 
 	@Override
 	public int getSize() {
@@ -84,7 +84,7 @@ public class HashTable_OA extends DataCounter {
 		SimpleIterator itr = new SimpleIterator() {
 			private int index = -1;
 			private int foundElements;
-			
+
 			/*
 			 * Returns the next available DataCount object.
 			 * @return the next available DataCount object in the hashtable.
@@ -93,14 +93,14 @@ public class HashTable_OA extends DataCounter {
 			public DataCount next() {
 				if (!hasNext())
 					return null;
-				
+
 				index++;
 				while(table[index] == null)
 					index++;
 				foundElements++;
 				return table[index];
 			}
-			
+
 			/*
 			 * Returns whether or not there exists another DataCount object.
 			 * @return returns a boolean of whether or not there exists another
@@ -113,31 +113,30 @@ public class HashTable_OA extends DataCounter {
 		};
 		return itr;
 	}
-	
+
 	private void rehash() {
 		primeIndex++;
 		DataCount[] biggerTable = new DataCount[primes[primeIndex]];
-		
-      for (int i = 0; i < table.length; i++) {
-         if (table[i] != null) {
-            DataCount dataCount = table[i];
-            int index = findPos(dataCount.data, biggerTable);
-			   biggerTable[index] = dataCount;
-         }
-      }
-      table = biggerTable;
+
+		for (int i = 0; i < table.length; i++) {
+			if (table[i] != null) {
+				DataCount dataCount = table[i];
+				int index = findPos(dataCount.data, biggerTable);
+				biggerTable[index] = dataCount;
+			}
+		}
+		table = biggerTable;
 	}
-	
+
 	private int findPos(String data, DataCount[] array) {
 		int i = 0;
 		int index = h.hash(data) % array.length;
 		int tempIndex = -1;
-      boolean found = false;
-		
+
 		while(true) {
 			tempIndex = (int) (index + Math.pow(i, 2));
 			if( tempIndex >= array.length )
-                tempIndex -= array.length;
+				tempIndex -= array.length;
 			DataCount dataCount = array[tempIndex];
 			if (dataCount == null) {
 				return tempIndex;

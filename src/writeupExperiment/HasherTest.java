@@ -19,27 +19,30 @@ public class HasherTest {
 		DataCounter sc = new HashTable_SC(c, h);
 		DataCounter oa = new HashTable_OA(c, h);
 
-// 		System.out.println("Separate Chaining tests:");
-// 		testSize(sc);
-// 		testSize(sc);
-//       testCount(sc);
-//       testIterator(sc);
+		System.out.println("Separate Chaining tests:");
+		testSize(sc);
+		testSize(sc);
+		//testCount(sc);
+		//testIterator(sc);
 
-		System.out.println("Open Addressing tests:");
-		testSize(oa);
-		testSize(oa);
-      testCount(oa);
-		testIterator(oa);
+		//		System.out.println("Open Addressing tests:");
+		//		testSize(oa);
+		//		testSize(oa);
+		//		testCount(oa);
+		//		testIterator(oa);
 	}
 
 	public static void testSize(DataCounter table) {
-		System.out.println("Inserting 20000 elements.");
-		for (int i = 0; i < 20000; i++) {
+		int elements = 102;
+		System.out.println("Inserting " + elements + " elements.");
+		for (int i = 0; i < elements; i++) {
 			table.incCount("" + i);
+			if (table.getCount("" + i) > 1)
+				System.out.println(i);
 		}
-		
+
 		System.out.println("Reported size = " + table.getSize());
-		if (table.getSize() == 20000) {
+		if (table.getSize() == elements) {
 			System.out.println("Size test passed.");
 		} else {
 			System.out.println("Incorrect size.");
@@ -61,24 +64,24 @@ public class HasherTest {
 		for (int i = 0; i < 50; i++) {
 			if (table.getCount("" + i) != 3) {
 				flag = false;
-            System.out.println(table.getCount("" + i));
+				System.out.println(table.getCount("" + i));
 			}
 		}
-		
+
 		if (flag) {
 			System.out.println("Multiple increment count test passed.");
 		} else {
 			System.out.println("Incorrect count.");
 		}     
 	}
-   
-   public static void testIterator(DataCounter table) {
-      SimpleIterator itr = table.getIterator();
-      int i = 0;
-      while (itr.hasNext()) {
-         itr.next();
-         i++;
-      }
-      System.out.println("Iterated through " + i + " elements.");
-   } 
+
+	public static void testIterator(DataCounter table) {
+		SimpleIterator itr = table.getIterator();
+		int i = 0;
+		while (itr.hasNext()) {
+			itr.next();
+			i++;
+		}
+		System.out.println("Iterated through " + i + " elements.");
+	} 
 }

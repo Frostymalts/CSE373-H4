@@ -57,14 +57,17 @@ public class HashTable_SC extends DataCounter {
 		} else {
 			HashNode node = findNode(index, data);
 			if (node == null) {
-				node = new HashNode(new DataCount(data, 1), null);
+				node = table[index];
+				while (node.next != null)
+					node = node.next;
+				node.next = new HashNode(new DataCount(data, 1), null);
 				size++;
 			} else {
 				node.dataCount.count++;
 			}
 		}
 		
-		if ( (double) size / (double) table.length > 1)
+		if ( (double) size / (double) table.length >= 1)
 			rehash();
 	}
 
@@ -149,7 +152,7 @@ public class HashTable_SC extends DataCounter {
 			if (c.compare(dataCount.data, data) == 0) {
 				return node;
 			} else
-				node = node.next;	
+				node = node.next;
 		}	
 		return node;
 	}
