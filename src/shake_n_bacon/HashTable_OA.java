@@ -35,32 +35,111 @@ import providedCode.*;
  *        TODO: Develop appropriate tests for your HashTable.
  */
 public class HashTable_OA extends DataCounter {
-
+	private DataCount[] table;
+	private int primeIndex;
+	private int[] primes = {101, 199, 401, 809, 1601, 3203, 6473,
+			12043, 25037, 51001, 100057, 200003};
+	private Comparator<String> c;
+	private Hasher h;
+	private int size;
+	
+	
 	public HashTable_OA(Comparator<String> c, Hasher h) {
-		// TODO: To-be implemented
+		this.table = new DataCount[primes[primeIndex]];
+		this.c = c;
+		this.h = h;
 	}
 
 	@Override
 	public void incCount(String data) {
-		// TODO Auto-generated method stub
+		int index = findPos(data, table);
+		
+		if (table[index] == null) {
+			table[index] = new DataCount(data, 1);
+			size++;
+		} else {
+			table[index].count++;
+		}
+		
+		if ((double) size > (double) table.length / 2.0)
+			rehash();
 	}
+	
 
 	@Override
 	public int getSize() {
-		// TODO Auto-generated method stub
-		return 0;
+		return size;
 	}
 
 	@Override
 	public int getCount(String data) {
-		// TODO Auto-generated method stub
-		return 0;
+		int index = findPos(data, table);
+		if (table[index] == null)
+			return 0;
+		return table[index].count;
 	}
 
 	@Override
 	public SimpleIterator getIterator() {
-		// TODO Auto-generated method stub
-		return null;
+		SimpleIterator itr = new SimpleIterator() {
+			private HashNode node = null;
+			private int index = -1;
+			private int foundElements;
+			
+			/*
+			 * Returns the next available DataCount object.
+			 * @return the next available DataCount object in the hashtable.
+			 */
+			@Override
+			public DataCount next() {
+				index++;
+				while(table[index] == null)
+					index++;
+				foundElements++;
+				return table[index];
+			}
+			
+			/*
+			 * Returns whether or not there exists another DataCount object.
+			 * @return returns a boolean of whether or not there exists another
+			 * DataCount object in the hashtable.
+			 */
+			@Override
+			public boolean hasNext() {
+				return foundElements <= size;
+			}
+		};
+		return itr;
+	}
+	
+	private void rehash() {
+		primeIndex++;
+		DataCount[] biggerTable = new DataCount[primes[primeIndex]];
+		
+		for (DataCount dataCount : table) {
+			int index = findPos(dataCount.data, biggerTable);
+			biggerTable[index] = dataCount;
+		}
+	}
+	
+	private int findPos(String data, DataCount[] array) {
+		int i = 0;
+		int index = h.hash(data) % array.length;
+		int tempIndex = -1;
+		
+		while(tempIndex != index) {
+			tempIndex = (int) (index + Math.pow(i, 2));
+			if( tempIndex >= array.length )
+                tempIndex -= array.length;
+			DataCount dataCount = array[tempIndex];
+			if (dataCount == null) {
+				return tempIndex;
+			} else if (c.compare(dataCount.data, data) == 0) {
+				return tempIndex;
+			}
+			i++;
+		}
+		return index;
 	}
 
 }
