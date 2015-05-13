@@ -120,6 +120,7 @@ public class HashTable_SC extends DataCounter {
 					if (table[index] != null) {
 						node = table[index];
 						foundNodes++;
+						index++;
 						return node.dataCount;
 					}
 					index++;

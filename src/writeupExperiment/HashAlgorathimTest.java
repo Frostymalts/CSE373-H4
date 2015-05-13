@@ -10,8 +10,8 @@ public class HashAlgorathimTest {
 		Hasher h = new StringHasher();
 		Comparator c = new StringComparator();
 		
-		System.out.println(h.hash("0") % 101);
-		System.out.println(h.hash("15") % 101);
+		System.out.println(h.hash("1") % 101);
+		System.out.println(h.hash("16") % 101);
 		System.out.println(c.compare("0", "15"));
 	}
 

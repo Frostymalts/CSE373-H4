@@ -33,12 +33,10 @@ public class HasherTest {
 	}
 
 	public static void testSize(DataCounter table) {
-		int elements = 102;
+		int elements = 20000;
 		System.out.println("Inserting " + elements + " elements.");
-		for (int i = 0; i < elements; i++) {
+		for (int i = 1; i <= elements; i++) {
 			table.incCount("" + i);
-			if (table.getCount("" + i) > 1)
-				System.out.println(i);
 		}
 
 		System.out.println("Reported size = " + table.getSize());
@@ -79,7 +77,9 @@ public class HasherTest {
 		SimpleIterator itr = table.getIterator();
 		int i = 0;
 		while (itr.hasNext()) {
-			itr.next();
+			DataCount dataCount = itr.next();
+			System.out.println("data = " + dataCount.data);
+			System.out.println("count = " + dataCount.count);
 			i++;
 		}
 		System.out.println("Iterated through " + i + " elements.");
