@@ -82,7 +82,6 @@ public class HashTable_OA extends DataCounter {
 	@Override
 	public SimpleIterator getIterator() {
 		SimpleIterator itr = new SimpleIterator() {
-			private HashNode node = null;
 			private int index = -1;
 			private int foundElements;
 			
