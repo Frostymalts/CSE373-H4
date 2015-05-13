@@ -131,7 +131,7 @@ public class HashTable_SC extends DataCounter {
 			 */
 			@Override
 			public boolean hasNext() {
-				return foundNodes <= size;
+				return foundNodes < size;
 			}
 		};
 		return itr;

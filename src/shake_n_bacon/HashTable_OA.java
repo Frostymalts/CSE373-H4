@@ -91,6 +91,9 @@ public class HashTable_OA extends DataCounter {
 			 */
 			@Override
 			public DataCount next() {
+				if (!hasNext())
+					return null;
+				
 				index++;
 				while(table[index] == null)
 					index++;
@@ -105,7 +108,7 @@ public class HashTable_OA extends DataCounter {
 			 */
 			@Override
 			public boolean hasNext() {
-				return foundElements <= size;
+				return foundElements < size;
 			}
 		};
 		return itr;
