@@ -3,36 +3,15 @@ package shake_n_bacon;
 import providedCode.*;
 
 /**
- * @author <name>
- * @UWNetID <uw net id>
- * @studentID <id number>
- * @email <email address>
+ * @author Joshua Malters, Morgan Evans
+ * @UWNetID maltersj, mnevans
+ * @studentID 1336144, 1124703
+ * @email maltersj@uw.edu, mnevans@uw.edu
  * 
- *        TODO: Replace this comment with your own as appropriate.
- * 
- *        1. You may implement HashTable with open addressing discussed in
- *        class; You can choose one of those three: linear probing, quadratic
- *        probing or double hashing. The only restriction is that it should not
- *        restrict the size of the input domain (i.e., it must accept any key)
- *        or the number of inputs (i.e., it must grow as necessary).
- * 
- *        2. Your HashTable should rehash as appropriate (use load factor as
- *        shown in the class).
- * 
- *        3. To use your HashTable for WordCount, you will need to be able to
- *        hash strings. Implement your own hashing strategy using charAt and
- *        length. Do NOT use Java's hashCode method.
- * 
- *        4. HashTable should be able to grow at least up to 200,000. We are not
- *        going to test input size over 200,000 so you can stop resizing there
- *        (of course, you can make it grow even larger but it is not necessary).
- * 
- *        5. We suggest you to hard code the prime numbers. You can use this
- *        list: http://primes.utm.edu/lists/small/100000.txt NOTE: Make sure you
- *        only hard code the prime numbers that are going to be used. Do NOT
- *        copy the whole list!
- * 
- *        TODO: Develop appropriate tests for your HashTable.
+ * This HashTable class extends DataCounter to be used as a container for
+ * DataCount objects. It utilizes a hashing sequence and quadratic probing
+ * to store the data. The hashtable will expand if the load factor exceeds 0.5.
+ * Has its own iterator that can be returned.
  */
 public class HashTable_OA extends DataCounter {
 	private DataCount[] table;
@@ -49,7 +28,14 @@ public class HashTable_OA extends DataCounter {
 		this.c = c;
 		this.h = h;
 	}
-
+	
+	/*
+	 * Insert operation. If the string already exists within the hashtable,
+	 * then the relevant DataCount will increase the count of that string
+	 * by one.
+	 * @param data The String that is to be inserted into the hashtable or
+	 * incremented.
+	 */
 	@Override
 	public void incCount(String data) {
 		int index = findPos(data, table);
@@ -65,12 +51,18 @@ public class HashTable_OA extends DataCounter {
 			rehash();
 	}
 
-
+	/*
+	 * @return the current number of unique words in the table
+	 */
 	@Override
 	public int getSize() {
 		return size;
 	}
-
+	
+	/*
+	 * @return the number of times a String has been inserted
+	 * into the hashtable
+	 */
 	@Override
 	public int getCount(String data) {
 		int index = findPos(data, table);
@@ -79,6 +71,12 @@ public class HashTable_OA extends DataCounter {
 		return table[index].count;
 	}
 
+	/*
+	 * Provides a SimpleIterator object to the client.
+	 * Do not increment or insert strings until the the use of
+	 * the iterator has terminated.
+	 * @return SimpleIterator object.
+	 */
 	@Override
 	public SimpleIterator getIterator() {
 		SimpleIterator itr = new SimpleIterator() {
@@ -114,6 +112,11 @@ public class HashTable_OA extends DataCounter {
 		return itr;
 	}
 
+	/*
+	 * Expands the table size to the nearest prime thats twice the size
+	 * of the prexisting size. Also relocates the DataCounts to their new
+	 * index locations.
+	 */
 	private void rehash() {
 		primeIndex++;
 		DataCount[] biggerTable = new DataCount[primes[primeIndex]];
@@ -128,6 +131,11 @@ public class HashTable_OA extends DataCounter {
 		table = biggerTable;
 	}
 
+	/*
+	 * Returns the index of the given String object in the given array. If
+	 * the string does not exist in the array, returns the index that the
+	 * string should be hashed to.
+	 */
 	private int findPos(String data, DataCount[] array) {
 		int i = 0;
 		int index = h.hash(data) % array.length;
@@ -136,9 +144,9 @@ public class HashTable_OA extends DataCounter {
 		while(true) {
 			try {
 				tempIndex = (int) (index + Math.pow(i, 2));
-				if( tempIndex >= array.length )
+				if (tempIndex >= array.length)
 					tempIndex -= array.length;
-				if( tempIndex < 0 )
+				if (tempIndex < 0)
 				     tempIndex += array.length;
 				DataCount dataCount = array[tempIndex];
 				if (dataCount == null) {

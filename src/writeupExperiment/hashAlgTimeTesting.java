@@ -6,6 +6,15 @@ import providedCode.FileWordReader;
 import providedCode.Hasher;
 import shake_n_bacon.StringHasher;
 
+/*
+ * @author Joshua Malters, Morgan Evans
+ * @UWNetID maltersj, mnevans
+ * @studentID 1336144, 1124703
+ * @email maltersj@uw.edu, mnevans@uw.edu
+ * 
+ * This class tests the run time of the hash algorithm used in the hashtables.
+*/ 
+
 public class hashAlgTimeTesting {
 
 	public static void main(String[] args) {
@@ -18,7 +27,7 @@ public class hashAlgTimeTesting {
 
 			while (word != null) {
 				long startTime = System.nanoTime();
-//				h.hash(word);
+//				h.hash(word); // uncomment this and comment the next 4 lines to switch hashes
 				int hash = 0;
 				for (int i = 0; i < word.length(); i++) {
 					hash += 37 * word.charAt(i);

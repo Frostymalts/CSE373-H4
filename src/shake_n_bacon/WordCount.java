@@ -1,7 +1,13 @@
+/*
+ * @author Joshua Malters, Morgan Evans
+ * @UWNetID maltersj, mnevans
+ * @studentID 1336144, 1124703
+ * @email maltersj@uw.edu, mnevans@uw.edu
+ */
+
 package shake_n_bacon;
 
 import java.io.IOException;
-
 import providedCode.*;
 
 /**
@@ -10,9 +16,12 @@ import providedCode.*;
  */
 public class WordCount {
 
-	// TODO: Replace this comment with your own as appropriate.
-	// Implement a method that returns an array of DataCount objects
-	// containing each unique word.
+	/*
+	 * Returns an array of DataCounts that exist within the given counter.
+	 * @param counter DataCounter containing the DataCounts wished to be returned
+	 * in the array.
+	 * @return an array of DataCounts found in the DataCounter
+	 */
 	private static DataCount[] getCountsArray(DataCounter counter) {
 		SimpleIterator itr = counter.getIterator();
 		DataCount[] array = new DataCount[counter.getSize()];

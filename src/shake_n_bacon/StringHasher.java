@@ -2,11 +2,11 @@ package shake_n_bacon;
 
 import providedCode.Hasher;
 
-/**
+/*
  * @author Joshua Malters, Morgan Evans
  * @UWNetID maltersj, mnevans
- * @studentID 1336144
- * @email maltersj@uw.edu>
+ * @studentID 1336144, 1124703
+ * @email maltersj@uw.edu, mnevans@uw.edu
  * 
  * This class provides a method to hash a string to an integer
  * value.
@@ -16,7 +16,7 @@ public class StringHasher implements Hasher {
 	/**
 	 * Returns an integer representation of the provided string.
 	 * @param str String object that will be hashed
-	 * @return integer representation of the hased string
+	 * @return integer representation of the hashed string
 	 */
 	@Override
 	public int hash(String str) {

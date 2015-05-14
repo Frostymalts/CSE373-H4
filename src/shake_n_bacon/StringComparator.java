@@ -5,8 +5,8 @@ import providedCode.*;
 /**
  * @author Joshua Malters, Morgan Evans
  * @UWNetID maltersj, mnevans
- * @studentID 1336144
- * @email maltersj@uw.edu
+ * @studentID 1336144, 1124703
+ * @email maltersj@uw.edu, mnevans@uw.edu
  * 
  * Comparator class that compares two String objects, and
  * returns an integer indicating which String comes before the other

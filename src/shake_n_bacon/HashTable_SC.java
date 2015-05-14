@@ -5,8 +5,8 @@ import providedCode.*;
 /**
  * @author Joshua Malters, Morgan Evans
  * @UWNetID maltersj, mnevans
- * @studentID 1336144
- * @email maltersj@uw.edu
+ * @studentID 1336144, 1124703
+ * @email maltersj@uw.edu, mnevans@uw.edu
  * 
  * This HashTable class extends DataCounter to be used as a container for
  * DataCount objects. It utilizes a hashing sequence and separate chaining
