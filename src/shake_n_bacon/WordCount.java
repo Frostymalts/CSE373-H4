@@ -15,23 +15,14 @@ public class WordCount {
 	// containing each unique word.
 	private static DataCount[] getCountsArray(DataCounter counter) {
 		SimpleIterator itr = counter.getIterator();
-		DataCount[] array = new DataCount[10];
+		DataCount[] array = new DataCount[counter.getSize()];
 		int i = 0;
 		
 		while(itr.hasNext()) {
-			if (i >= array.length)
-				array = expandArray(array);
 			array[i] = itr.next();
 			i++;
 		}
 		return array;
-	}
-	
-	private static DataCount[] expandArray(DataCount[] array) {
-		DataCount[] newArray = new DataCount[array.length * 2];
-		for (int i = 0; i < array.length; i++)
-			newArray[i] = array[i];
-		return newArray;
 	}
 
 	// ////////////////////////////////////////////////////////////////////////

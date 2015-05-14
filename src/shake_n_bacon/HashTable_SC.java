@@ -31,7 +31,7 @@ public class HashTable_SC extends DataCounter {
 	private Hasher h;
 	private HashNode[] table;
 	private int[] primes = {101, 199, 401, 809, 1601, 3203, 6473,
-			12043, 25037, 51001, 100057, 200003};
+			12043, 25037, 51001, 100057, 200003, 400009, 800311};
 
 	public HashTable_SC(Comparator<String> c, Hasher h) {
 		this.size = 0;
@@ -50,7 +50,7 @@ public class HashTable_SC extends DataCounter {
 	@Override
 	public void incCount(String data) {
 		int index = h.hash(data) % table.length;
-
+		
 		if (table[index] == null) {
 			table[index] = new HashNode(new DataCount(data, 1), null);
 			size++;
@@ -66,7 +66,7 @@ public class HashTable_SC extends DataCounter {
 				node.dataCount.count++;
 			}
 		}
-		
+
 		if ( (double) size / (double) table.length >= 1)
 			rehash();
 	}
@@ -104,7 +104,7 @@ public class HashTable_SC extends DataCounter {
 			private HashNode node = null;
 			private int index;
 			private int foundNodes;
-			
+
 			/*
 			 * Returns the next available DataCount object.
 			 * @return the next available DataCount object in the hashtable.
@@ -127,7 +127,7 @@ public class HashTable_SC extends DataCounter {
 				}
 				return null;
 			}
-			
+
 			/*
 			 * Returns whether or not there exists another DataCount object.
 			 * @return returns a boolean of whether or not there exists another
@@ -140,7 +140,7 @@ public class HashTable_SC extends DataCounter {
 		};
 		return itr;
 	}
-	
+
 	/*
 	 * Given an index and a String, will search the list at the given index
 	 * to determine if the corresponding DataCount to that String exists.
@@ -157,7 +157,7 @@ public class HashTable_SC extends DataCounter {
 		}	
 		return node;
 	}
-	
+
 	/*
 	 * Expands the table size to the nearest prime thats twice the size
 	 * of the prexisting size. Also relocates the DataCounts to their new
@@ -167,10 +167,10 @@ public class HashTable_SC extends DataCounter {
 		SimpleIterator itr = getIterator();
 		primeIndex++;
 		HashNode[] biggerTable = new HashNode[primes[primeIndex]];
-	
+
 		while(itr.hasNext()){
 			DataCount dataCount = itr.next();
-			int index = h.hash(dataCount.data) % biggerTable.length;
+			int index = h.hash(dataCount.data) % biggerTable.length;		
 			if (biggerTable[index] == null)
 				biggerTable[index] = new HashNode(dataCount, null);
 			else {

@@ -23,7 +23,7 @@ public class HasherTest {
 		testSize(sc);
 		testSize(sc);
 		//testCount(sc);
-		//testIterator(sc);
+		testIterator(sc);
 
 		//		System.out.println("Open Addressing tests:");
 		//		testSize(oa);
@@ -36,7 +36,8 @@ public class HasherTest {
 		int elements = 20000;
 		System.out.println("Inserting " + elements + " elements.");
 		for (int i = 1; i <= elements; i++) {
-			table.incCount("" + i);
+			for (int j = 0; j < 5; j++)
+				table.incCount("" + i);
 		}
 
 		System.out.println("Reported size = " + table.getSize());
@@ -78,8 +79,8 @@ public class HasherTest {
 		int i = 0;
 		while (itr.hasNext()) {
 			DataCount dataCount = itr.next();
-			System.out.println("data = " + dataCount.data);
-			System.out.println("count = " + dataCount.count);
+//			System.out.println("data = " + dataCount.data);
+//			System.out.println("count = " + dataCount.count);
 			i++;
 		}
 		System.out.println("Iterated through " + i + " elements.");

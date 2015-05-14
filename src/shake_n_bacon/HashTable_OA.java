@@ -38,7 +38,7 @@ public class HashTable_OA extends DataCounter {
 	private DataCount[] table;
 	private int primeIndex;
 	private int[] primes = {101, 199, 401, 809, 1601, 3203, 6473,
-			12043, 25037, 51001, 100057, 200003};
+			12043, 25037, 51001, 100057, 200003, 400009, 800311};
 	private Comparator<String> c;
 	private Hasher h;
 	private int size;
@@ -131,19 +131,31 @@ public class HashTable_OA extends DataCounter {
 	private int findPos(String data, DataCount[] array) {
 		int i = 0;
 		int index = h.hash(data) % array.length;
-		int tempIndex = -1;
+		int tempIndex = 0;
 
 		while(true) {
-			tempIndex = (int) (index + Math.pow(i, 2));
-			if( tempIndex >= array.length )
-				tempIndex -= array.length;
-			DataCount dataCount = array[tempIndex];
-			if (dataCount == null) {
-				return tempIndex;
-			} else if (c.compare(dataCount.data, data) == 0) {
-				return tempIndex;
+			try {
+				tempIndex = (int) (index + Math.pow(i, 2));
+				if( tempIndex >= array.length )
+					tempIndex -= array.length;
+				if( tempIndex < 0 )
+				     tempIndex += array.length;
+				DataCount dataCount = array[tempIndex];
+				if (dataCount == null) {
+					return tempIndex;
+				} else if (c.compare(dataCount.data, data) == 0) {
+					return tempIndex;
+				}
+				i++;
+			} catch (Exception e) {
+				System.out.println("data = " + data);
+				System.out.println("hash = " + h.hash(data));
+				System.out.println("i = " + i);
+				System.out.println("index = " + index);
+				System.out.println("tempIndex = " + tempIndex);
+				System.out.println("tableSize = " + array.length);
+				System.exit(1);
 			}
-			i++;
 		}
 	}
 }

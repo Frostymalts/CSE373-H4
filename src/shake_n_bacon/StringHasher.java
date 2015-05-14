@@ -20,12 +20,14 @@ public class StringHasher implements Hasher {
 	 */
 	@Override
 	public int hash(String str) {
-		int hashVal = 0;
-		int tableSize = 26053; //arbitrary primary number since table size is unavailable. 
+		int hash = 0;
 		
-		for (int i = 0; i < str.length(); i++)
-			hashVal = 37 * hashVal + str.charAt(i);
+		for (int i = 0; i < str.length(); i++) {
+		  hash += str.charAt(i);
+		}
 		
-		return hashVal;
+		hash *= str.length();
+		
+		return hash;
 	}
 }
