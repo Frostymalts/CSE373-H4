@@ -30,31 +30,13 @@ import providedCode.*;
  *        and change it there as needed for your write-up experiments.
  */
 public class Correlator {
-	
-	// TODO: Replace this comment with your own as appropriate.
-	// Implement a method that returns an array of DataCount objects
-	// containing each unique word.
-	private static DataCount[] getCountsArray(DataCounter counter) {
-		SimpleIterator itr = counter.getIterator();
-		DataCount[] array = new DataCount[counter.getSize()];
-		int i = 0;
-
-		while(itr.hasNext()) {
-			array[i] = itr.next();
-			i++;
-		}
-		return array;
-	}
-
-	// ////////////////////////////////////////////////////////////////////////
-	// /////////////// DO NOT MODIFY ALL THE METHODS BELOW ///////////////////
-	// ////////////////////////////////////////////////////////////////////////
-
-	private static void countWords(String file, DataCounter counter) {
+	private static int countWords(String file, DataCounter counter) {
+		int totalWords = 0;
 		try {
 			FileWordReader reader = new FileWordReader(file);
 			String word = reader.nextWord();
 			while (word != null) {
+				totalWords++;
 				counter.incCount(word);
 				word = reader.nextWord();
 			}
@@ -62,38 +44,7 @@ public class Correlator {
 			System.err.println("Error processing " + file + " " + e);
 			System.exit(1);
 		}
-	}
-
-	private static int countTotalWords(DataCount[] counts) {
-		int total = 0;
-		for (DataCount c : counts) {
-			total += c.count;
-		}
-		return total;
-	}
-
-	/*
-	 * Sort the count array in descending order of count. If two elements have
-	 * the same count, they should be ordered according to the comparator. This
-	 * code uses insertion sort. The code is generic, but in this project we use
-	 * it with DataCount and DataCountStringComparator.
-	 * 
-	 * @param counts array to be sorted.
-	 * 
-	 * @param comparator for comparing elements.
-	 */
-	private static <E> void insertionSort(E[] array, Comparator<E> comparator) {
-		for (int i = 1; i < array.length; i++) {
-			E x = array[i];
-			int j;
-			for (j = i - 1; j >= 0; j--) {
-				if (comparator.compare(x, array[j]) >= 0) {
-					break;
-				}
-				array[j + 1] = array[j];
-			}
-			array[j + 1] = x;
-		}
+		return totalWords;
 	}
 
 	/*
@@ -101,7 +52,7 @@ public class Correlator {
 	 */
 	private static void usage() {
 		System.err
-		.println("Usage: [-s | -o] <filename of document to analyze>");
+		.println("Usage: [-s | -o] <filename> <filename>");
 		System.err.println("-s for hashtable with separate chaining");
 		System.err.println("-o for hashtable with open addressing");
 		System.exit(1);
@@ -114,29 +65,45 @@ public class Correlator {
 	 *            the input arguments of this program
 	 */
 	public static void main(String[] args) {
-		if (args.length != 2) {
+		if (args.length != 3) {
 			usage();
 		}
 
 		String firstArg = args[0].toLowerCase();
-		DataCounter counter = null;
+		DataCounter firstCounter = null;
+		DataCounter secondCounter = null;
 		if (firstArg.equals("-s")) {
-			counter = new HashTable_SC(new StringComparator(),
+			firstCounter = new HashTable_SC(new StringComparator(),
+					new StringHasher());
+			secondCounter = new HashTable_SC(new StringComparator(),
 					new StringHasher());
 		} else if (firstArg.equals("-o")) {
-			counter = new HashTable_OA(new StringComparator(),
+			firstCounter = new HashTable_OA(new StringComparator(),
+					new StringHasher());
+			secondCounter = new HashTable_OA(new StringComparator(),
 					new StringHasher());
 		} else {
 			usage();
 		}
-
-		countWords(args[1], counter);
-		DataCount[] counts = getCountsArray(counter);
-		insertionSort(counts, new DataCountStringComparator());
-		int totalWords = countTotalWords(counts);
 		
-		// TODO: Compute this variance
+		int firstTotal = countWords(args[1], firstCounter);
+		int secondTotal = countWords(args[2], secondCounter);
+		SimpleIterator itr = firstCounter.getIterator();
 		double variance = 0.0;
+		
+		while (itr.hasNext()) {
+			DataCount dataCount = itr.next();
+			if (secondCounter.getCount(dataCount.data) > 0) {
+				double firstFreq = (double) dataCount.count / (double) firstTotal;
+				double secondFreq = (double) secondCounter.getCount(dataCount.data) 
+						/ (double) secondTotal;
+				if ((firstFreq < 0.01 && firstFreq > 0.0001) &&
+						(secondFreq < 0.01 && secondFreq > 0.0001)) {
+					variance += Math.pow(firstFreq - secondFreq, 2.0);
+				}
+			}
+		}
+		
 		// IMPORTANT: Do not change printing format. Just print the double.
 		System.out.println(variance);
 	}
